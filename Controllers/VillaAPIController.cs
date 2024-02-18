@@ -82,9 +82,22 @@ namespace MagicVilla_VillaAPI.Controllers
 
 
         // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPut("{id}", Name = "UpdateVilla")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult UpdateVilla(int id, [FromBody]VillaDTO villaDTO)
         {
+            if (villaDTO == null || id != villaDTO.Id)
+            {
+                return BadRequest();    
+            }
+            var villa = VillaStore.villaList.FirstOrDefault(u => u.Id == id);
+            villa.Name = villaDTO.Name;
+            villa.Sqft = villaDTO.Sqft;
+            villa.Occupancy = villaDTO.Occupancy;
+
+            return NoContent();
         }
 
         // DELETE api/values/5

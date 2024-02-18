@@ -1,8 +1,9 @@
 ﻿var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// I Add AddNewtonsoftJson() after i add tow new packeg JsonPatch and tonsoftJson
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

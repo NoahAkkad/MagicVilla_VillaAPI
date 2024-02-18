@@ -12,7 +12,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace MagicVilla_VillaAPI.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+
+    //[Route("api/[controller]")]
+    [Route("api/VillaAPI")]
     public class VillaAPIController : ControllerBase
     {
         // GET: api/values
@@ -25,9 +27,9 @@ namespace MagicVilla_VillaAPI.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public VillaDTO GetVilla(int id)
         {
-            return "value";
+            return VillaStore.villaList.FirstOrDefault(u => u.Id == id);
         }
 
         // POST api/values

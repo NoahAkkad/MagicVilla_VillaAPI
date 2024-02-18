@@ -33,6 +33,7 @@ namespace MagicVilla_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult <VillaDTO> GetVilla(int id)
         {
+            
             if(id == 0)
             {
                 return BadRequest();
@@ -55,12 +56,19 @@ namespace MagicVilla_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult <VillaDTO> CreateVilla([FromBody]VillaDTO villaDTO)
         {
-            if(villaDTO == null)
+            //Add Custom Error 
+            if (VillaStore.villaList.FirstOrDefault(u => u.Name.ToLower() == villaDTO.Name.ToLower()) != null)
+            {
+                ModelState.AddModelError("CustomError", "Villa alrady Exists!");
+                return BadRequest(ModelState);
+            }
+
+            if ( villaDTO == null )
             {
                 return BadRequest();
-
             }
-            if(villaDTO.Id > 0)
+
+            if ( villaDTO.Id > 0 )
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
@@ -71,6 +79,14 @@ namespace MagicVilla_VillaAPI.Controllers
 
             return CreatedAtRoute("GetVilla",new { id = villaDTO.Id}, villaDTO);
         }
+
+
+
+
+
+
+
+
 
         // PUT api/values/5
         [HttpPut("{id}")]
